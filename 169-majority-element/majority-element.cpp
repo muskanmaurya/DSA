@@ -14,6 +14,13 @@ public:
             }
             else cnt--;
         }
+        int cnt1=0;
+        for(int i=0;i<n;i++){
+            if(nums[i]==el){cnt++;}
+            if(cnt1>n/2){
+                return el;
+            }
+        }
         return el;
     }
 };
