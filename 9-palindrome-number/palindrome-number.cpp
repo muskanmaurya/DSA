@@ -4,21 +4,23 @@
 class Solution {
 public:
     bool isPalindrome(int x) {
-       
-        if (x < 0 || (x % 10 == 0 && x != 0)) {
-            return false;
+        int og=x;
+     int rev=0;
+     if(x<0){
+        return false;
+     }
+        while(x!=0){
+            int ld=x%10;
+            if(rev>INT_MAX/10 || (rev==INT_MAX/10 && ld>7)){
+                return 0;
+            }
+            rev=rev*10+ld;
+            x=x/10;
         }
-
-        int revertedNumber = 0;
-        
-       while (x > revertedNumber) {
-            revertedNumber = revertedNumber * 10 + x % 10;
-            
-            x /= 10;
+        if(rev==og){
+            return true;
         }
-
-        
-        return x == revertedNumber || x == revertedNumber / 10;
+        return false;
     }
 };
 
