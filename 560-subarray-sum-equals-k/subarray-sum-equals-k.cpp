@@ -2,32 +2,17 @@ class Solution {
 public:
     int subarraySum(vector<int>& nums, int k) {
         int n=nums.size();
-        int cnt=0;
-        vector<int> ps(n,0);
-        ps[0]=nums[0];
-        for(int i=1;i<n;i++){
-            ps[i]=ps[i-1]+nums[i];
-        }
-
-        unordered_map<int,int> mpp;
-        for(int j=0;j<n;j++){
-            if(ps[j]==k){
-                cnt++;
+        int cs;  //current sum
+        int cnt=0;  //count
+        for(int i=0;i<n;i++){
+            cs=0;
+            for(int j=i;j<n;j++){
+                cs+=nums[j];  
+                if(cs==k){  //if my cnt is equal to k increase the cnt
+                    cnt++;
+                }
             }
-            int val=ps[j]-k;
-            if(mpp.find(val)!=mpp.end()){
-                cnt+=mpp[val];
-            }
-
-            if(mpp.find(ps[j])==mpp.end()){
-                mpp[ps[j]]=0;
-            }
-
-            mpp[ps[j]]++;
-
-        }
-
-        return cnt;
-        
+        } 
+        return cnt; //value of cnt is the answer
     }
 };
