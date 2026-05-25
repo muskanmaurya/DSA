@@ -1,22 +1,22 @@
 class Solution {
 public:
     void rotate(vector<vector<int>>& matrix) {
-        //Bruteforce Method
+        // Optimal Method: Achieves 90-degree clockwise rotation in-place
         int m=matrix.size(); //number of rows
         int n=matrix[0].size(); //number of columns
-        vector<vector<int>> ans; // Temporary 2D vector to store the rotated matrix
-        // Loop through each column of the original matrix from left to right
+        //In-place Transpose (Reflecting elements across the main diagonal)
         for(int i=0;i<m;i++){
-        vector<int> row; // Temporary 1D vector to construct the new rotated row
-        // Traverse the current column 'i' from bottom to top (backwards)
-            for(int j=n-1;j>=0;j--){
-                // Collect elements to form the new row configuration
-                row.push_back(matrix[j][i]);
+        // CRITICAL OPTIMIZATION: Start 'j' from 'i' to traverse only the Upper Triangle.
+            // This prevents double-swapping elements back to their original positions.
+            for(int j=i;j<n;j++){
+                swap(matrix[i][j],matrix[j][i]);
             }
-            // Push the fully constructed row into our temporary 2D matrix
-            ans.push_back(row);
         }
-        // Copy the rotated state from 'ans' back into the original 'matrix' (In-place reference update)
-        matrix=ans;
+        // Horizontal Reflection (Reversing each row independently)
+        for(int i=0;i<n;i++){
+            // Using C++ STL iterators to reverse row elements in-place.
+            // This flips the transposed columns into their correct rotated order.
+            reverse(matrix[i].begin(),matrix[i].end());
+        }
     }
 };
