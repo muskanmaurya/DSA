@@ -1,22 +1,15 @@
 class Solution {
 public:
     void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
-        int idx=m+n-1;
-        int i=m-1;
-        int j=n-1;
-        while(i>=0 && j>=0){
-            if(nums1[i]>nums2[j]){
-                nums1[idx]=nums1[i];
-                idx--,i--;
-            }
-            else{
-                nums1[idx]=nums2[j];
-                idx--,j--;
-            }
+        //Fill the dummy slots at the back of nums1 with nums2 elements.
+        // We start our index loop from 'm' (where the real data of nums1 ends).
+        for(int i = m; i < nums1.size(); i++){
+            // 'i - m' correctly maps indices 0, 1, 2... of nums2 
+            // into indices m, m+1, m+2... of nums1
+            nums1[i] = nums2[i - m];
         }
-        while(j>=0){
-            nums1[idx]=nums2[j];
-            idx--,j--;
-        }
+        // Now that nums1 contains all elements from both arrays,
+        // it is completely unsorted. We use the built-in sort method to sort the array
+        sort(nums1.begin(), nums1.end());
     }
 };
