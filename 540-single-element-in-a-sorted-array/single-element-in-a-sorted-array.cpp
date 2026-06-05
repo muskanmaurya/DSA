@@ -2,20 +2,15 @@ class Solution {
 public:
     int singleNonDuplicate(vector<int>& nums) {
         int n=nums.size();
-        int st=0;
-        int end=n-1;
-        if(n==1) return nums[0];
-        if(nums[0]!=nums[1]) return nums[0];
-        if(nums[n-1]!=nums[n-2]) return nums[n-1];
-        while(st<=end){
-            int mid=st+(end-st)/2;
-            if(nums[mid]!=nums[mid+1] && nums[mid]!=nums[mid-1]){
-                return nums[mid];
+        // Jump by 2 because elements appear in pairs
+        for(int i = 0; i < n-1; i+=2){
+            // If a pair doesn't match, the current element is the single one
+            if(nums[i] != nums[i+1]){
+                return nums[i];
             }
-            if((mid%2!=0 && nums[mid]==nums[mid-1]) || (mid%2==0 && nums[mid]==nums[mid+1])){
-                st=mid+1;
-            }else end=mid-1;
         }
-        return -1;    
+        // If the loop finishes without returning, the single element 
+        // must be sitting at the very last index.
+        return nums[n - 1];
     }
 };
