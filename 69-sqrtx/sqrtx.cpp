@@ -1,22 +1,27 @@
 class Solution {
 public:
     int mySqrt(int x) {
-        // Edge Case: If x is 0 or 1, its square root is the number itself.
-        // Handling this early prevents loop boundary bugs.
+        // Safe Edge Cases: The square root of 0 or 1 is the number itself
         if(x == 0 || x == 1) return x;
-        // FIXED: Using 'long long' for the loop tracker 'i' to completely 
-        // prevent integer overflow when calculating 'i * i' for large inputs.
-        for(long long i = 0; i < x; i++){
-            // Case 1: Perfect square found!
-            if(i * i == x){
-                return i;
+        // Since we handled 0 and 1, our active search space is securely [2 to x-1]
+        int st = 2, end = x - 1;
+        int ans = 1; // Default floor placeholder
+        while(st <= end){
+            int mid = st + (end - st) / 2;
+            // Using long long prevents overflow when mid * mid crosses 2^31 - 1
+            long long root = (long long)mid * mid;
+            // Case 1: Perfect square match found!
+            if(root == x) return mid;
+            // Case 2: Too big! Eliminate this mid and everything to its right
+            else if(root > x) {
+                end = mid - 1;
             }
-            // Case 2: The exact moment the square crosses 'x', the previous
-            // integer (i - 1) is our perfect rounded-down floor value.
-            else if(i * i > x){
-                return i - 1;
+            // Case 3: Too small! This is a valid floor candidate. Save it and push right.
+            else{
+                ans = mid;
+                st = mid + 1;
             }
         }
-        return 1;
+    return ans;
     }
 };
