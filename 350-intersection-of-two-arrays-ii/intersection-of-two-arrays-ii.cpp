@@ -1,17 +1,24 @@
+#include<unordered_map>
 class Solution {
 public:
     vector<int> intersect(vector<int>& nums1, vector<int>& nums2) {
-        sort(nums1.begin(), nums1.end());
-        sort(nums2.begin(), nums2.end());
-        int i = 0, j = 0;
+        // Optimization Trick: Always map the smaller array to save memory space
+        if(nums1.size() > nums2.size()){
+            //telling our function to restart itself, but with the two arrays swapped.
+            return intersect(nums2, nums1);
+        }
+        unordered_map<int,int> mpp;
         vector<int> ans;
-        while(i < nums1.size() && j < nums2.size()){
-            if(nums1[i] == nums2[j]){
-                ans.push_back(nums1[i]);
-                i++, j++;
+        // Step 1: Store frequencies of elements from the smaller array
+        for(int num : nums1){
+            mpp[num]++;
+        }
+        // Step 2: Scan the second array and match frequencies
+        for(int num : nums2){
+            if(mpp[num] > 0){
+                ans.push_back(num);
+                mpp[num]--; // Decrement to handle duplicates correctly
             }
-            else if(nums1[i] < nums2[j]) i++;
-            else j++;
         }
         return ans;
     }
