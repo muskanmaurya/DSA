@@ -1,1 +1,1 @@
-<h2>reverse-string Notes</h2><hr>[ Time taken: 4 hrs 49 m 32 s ]
+<h2>reverse-string Notes</h2><hr>[ Time taken: 1hr 17m 12s ]
