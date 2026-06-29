@@ -4,9 +4,19 @@ public:
         //Brutforce
         if(s.length() != t.length()) return false;
 
-        sort(s.begin(), s.end());
-        sort(t.begin(), t.end());
+        int count[26] = {0};
 
-        return s == t;
+        for(int i = 0; i < s.size(); i++){
+            count[s[i] - 'a']++;
+        }
+
+        for(int i = 0; i < t.size(); i++){
+            count[t[i] - 'a']--;
+        }
+
+        for(int i = 0; i < 26; i++){
+            if(count[i] != 0)return false;
+        }
+        return true;
     }
 };
