@@ -1,7 +1,7 @@
 class Solution {
 public:
     bool isAnagram(string s, string t) {
-        //Brutforce
+        //Optimal
         if(s.length() != t.length()) return false;
 
         int count[26] = {0};
