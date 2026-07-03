@@ -1,23 +1,36 @@
 class Solution {
 public:
     string reverseWords(string s) {
-        //better
+        //optimal
         int n = s.length();
-        string ans = "";
+        // STEP 1: Reverse the entire string so the last words come first
         reverse(s.begin(), s.end());
-
-        for(int i = 0; i < n; i++){
-            string word = "";
+        int l = 0;// Marks the START index of the current word we are writing
+        int r = 0;// The "WRITER" pointer that overwrites the string in-place
+        int i = 0;// The "READER" pointer that scans the string looking for letters
+        while(i < n){
+            // STEP 2: Skip any garbage spaces. Just keep moving the Reader forward.
+            while(i < n && s[i] == ' ') i++;
+            // If the Reader reached the end of the string, we are completely done!
+            if(i == n) break;
+            // STEP 3: Add a single space BETWEEN words.
+            if(r != 0){
+            s[r] = ' ';
+            r++;
+            }
+            // Mark where this new word is starting in our Writer's timeline
+            l = r;
+            // STEP 4: Copy the word! As long as the Reader sees valid letters,
             while(i < n && s[i] != ' '){
-                word += s[i];
-                i++;
+            s[r] = s[i];
+            r++;
+            i++;
             }
-
-            reverse(word.begin(), word.end());
-            if(word.length() > 0){
-                ans += ' ' + word;
-            }
+            // STEP 5: Reverse just the single word we wrote to fix its spelling
+            reverse(s.begin() + l, s.begin() + r);
         }
-        return ans.substr(1);
+    // STEP 6: Chop off the leftover garbage characters at the end of the string!
+    s.resize(r);
+    return s;
     }
 };
