@@ -21,7 +21,7 @@ public:
                 if(n % 2 == 1) return max(l1, l2);
                 return ((double)(max(l1, l2) + min(r1, r2))) / 2.0;
             }
-            else if(l1 > l2) end = mid1 - 1;
+            else if(l1 > r2) end = mid1 - 1;
             else st = mid1 + 1;
         }
     return 0;
