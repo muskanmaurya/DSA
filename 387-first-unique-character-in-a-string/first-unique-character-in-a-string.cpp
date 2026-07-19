@@ -1,17 +1,15 @@
 class Solution {
 public:
     int firstUniqChar(string s) {
+        // optimal
         int n = s.length();
-        for(int i = 0; i < n; i++){
-            bool isDup = false;
-            for(int j = 0; j < n; j++){
-                if(s[i] == s[j] && i != j){
-                    isDup = true;
-                    break;
-                }
-            }
-            if(isDup == false) return i;
+        vector<int> count(26, 0);
+        for(char c : s){
+            count[c - 'a']++;
         }
-        return -1;
+        for(int i = 0; i < n; i++){
+            if(count[s[i] - 'a'] == 1) return i;
+        }
+        return -1;  
     }
 };
