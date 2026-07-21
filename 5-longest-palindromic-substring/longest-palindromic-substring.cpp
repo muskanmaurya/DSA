@@ -1,30 +1,29 @@
 class Solution {
 public:
     //helper function to check if length is palindrome or not
-    bool isPalindrome(string& s, int l, int r){
-        while(l < r){
-            if(s[l] != s[r]){
-                return false;
-            }
-            l++;
-            r--;
+    int expendFromCenter(string& s, int l, int r){
+        while(l >= 0 && r <s.length() && s[l] == s[r]){
+            l--;
+            r++;
         }
-        return true;
+        return r - l - 1;
     }
     string longestPalindrome(string s) {
-        //bruteforce
+        //better
+        if(s.empty()) return "";
         int maxlen = 0;
         int start = 0;
         for(int i = 0; i < s.length(); i++){
-            for(int j = 0; j < s.length(); j++){
-                if(isPalindrome(s, i, j)){
-                    int currlen = j - i + 1;
+            int len1 = expendFromCenter(s, i, i);
 
-                    if(currlen > maxlen){
-                        maxlen = currlen;
-                        start = i;
-                    }
-                }
+            int len2 = expendFromCenter(s, i, i + 1);
+
+            int len = max(len1, len2);
+
+            if(len > maxlen){
+                maxlen = len;
+
+                start = i - (len - 1) / 2;
             }
         }
         return s.substr(start, maxlen);
