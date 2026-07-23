@@ -1,36 +1,28 @@
 class Solution {
 public:
     bool wordPattern(string pattern, string s) {
+        stringstream ss(s);
+        string word;
         vector<string> words;
-        string currentWord = "";
-        
-        // Fix: Only push to words when we hit a SPACE or END OF STRING
-        for (int i = 0; i <= s.length(); i++) {
-            if (i == s.length() || s[i] == ' ') {
-                if (!currentWord.empty()) {
-                    words.push_back(currentWord);
-                    currentWord = "";
-                }
-            } else {
-                currentWord += s[i];
-            }
+
+        while(ss >> word) words.push_back(word);
+
+        if(pattern.length() != words.size()) return false;
+
+        unordered_map<char, string> charToWord;
+        unordered_map<string, char> wordToChar;
+
+        for(int i = 0; i < pattern.size(); i++){
+            char c = pattern[i];
+            string w = words[i];
+
+            if(charToWord.count(c) && charToWord[c] != w) return false;
+
+            if(wordToChar.count(w) && wordToChar[w] != c) return false;
+
+            charToWord[c] = w;
+            wordToChar[w] = c;
         }
-        
-        if (pattern.length() != words.size()) {
-            return false;
-        }
-        
-        int n = pattern.length();
-        for (int i = 0; i < n; i++) {
-            for (int j = i + 1; j < n; j++) {
-                if (pattern[i] == pattern[j] && words[i] != words[j]) {
-                    return false;
-                }
-                if (pattern[i] != pattern[j] && words[i] == words[j]) {
-                    return false;
-                }
-            }
-        }  
-        return true;
+    return true;
     }
 };
