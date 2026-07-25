@@ -1,21 +1,19 @@
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
-        //Bruteforce
+        //optimal - Dynamic Sliding Window
         int n = s.length();
         int maxlen = 0;
-        for(int i = 0; i < n; i++){
-            unordered_set<char> visited;
-            int currlen = 0;
-            for(int j = i; j < n; j++){
-                if(visited.count(s[j])){
-                    break;
-                }
-                
-                visited.insert(s[j]);
-                currlen++;
-                maxlen = max(currlen, maxlen);
+        unordered_map<char, int> lastSeen;
+        int l = 0; //left pointer SW
+        for(int r = 0; r < n; r++){  //right pointer of SW
+            char c = s[r];
+            // If character was seen before AND its index is inside current window [left, right]
+            if(lastSeen.count(c) && lastSeen[c] >= l){
+                l = lastSeen[c] + 1;
             }
+            lastSeen[c] = r; // Update last seen index of character
+            maxlen = max(maxlen, r - l + 1);
         }
         return maxlen;
     }
