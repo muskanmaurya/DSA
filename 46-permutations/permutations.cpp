@@ -1,15 +1,15 @@
 class Solution {
 public:
-    vector<vector<int>> getPerms(vector<int>& nums, int idx, vector<vector<int>>& ansarr){
+    void getPerms(vector<int>& nums, int idx, vector<vector<int>>& ansarr){
         if(idx == nums.size()){
             ansarr.push_back({nums});
+            return;
         }
         for(int i = idx; i < nums.size(); i++){
             swap(nums[i], nums[idx]);
             getPerms(nums, idx + 1, ansarr);
             swap(nums[i], nums[idx]);
         }
-        return ansarr;
     }
 
     vector<vector<int>> permute(vector<int>& nums) {
