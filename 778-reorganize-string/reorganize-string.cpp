@@ -4,39 +4,33 @@ public:
         int n = s.length();
         vector<int> cnt(26, 0);
 
-        int maxcnt = 0;
-        char maxchar;
-        for(char c : s){
+        for(char c : s){ // count freq of each char
             cnt[c - 'a']++;
-            if(cnt[c - 'a'] > maxcnt){
-                maxcnt = cnt[c - 'a'];
-                maxchar = c;
+        }
+        vector<pair<int, int>> freq;
+        for(int i = 0; i < 26; i++){ //group chars with their freq & sort descending
+            if(cnt[i] > 0){
+                freq.push_back({cnt[i], (char)('a' + i)});
             }
         }
+        sort(freq.rbegin(), freq.rend());
+        if(freq[0].first > (n + 1) / 2) return "";
 
-        if(maxcnt > (n + 1)/2){
-            return "";
-        }
-
-        string result = s;
+        string ans = s;
         int idx = 0;
-        while(cnt[maxchar - 'a'] > 0){
-            result[idx] = maxchar;
-            idx += 2;
-            cnt[maxchar - 'a']--;
-        }
 
-        for(int i = 0; i < 26; i++){
-            while(cnt[i] > 0){
-                if(idx >= n){
-                    idx = 1;
-                }
-                result[idx] = (char)('a' + i);
+        for(auto& p : freq){ //Interleave chars into even and odd
+            int freqCnt = p.first;
+            char ch = p.second;
+
+            while(freqCnt > 0){
+                if(idx >= n) idx = 1;
+
+                ans[idx] = ch;
                 idx += 2;
-                cnt[i]--;
-            }
+                freqCnt--;
+            } 
         }
-
-        return result;
+        return ans;
     }
 };
