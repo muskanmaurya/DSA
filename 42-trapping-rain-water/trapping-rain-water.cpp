@@ -3,24 +3,22 @@ public:
     int trap(vector<int>& h) {
         int n = h.size();
         
-        vector<int> pm(n, 0); //prefixmax
-        pm[0] = h[0];
-        vector<int> sm(n, 0); //suffixmax
-        sm[n - 1] = h[n - 1];
+        int lMax = 0, rMax = 0; //LeftMax and RightMax
         int total = 0;
+        int l = 0, r = n - 1; //left and right pointers
 
-
-        for(int i = 1; i < n; i++){
-            pm[i] = max(pm[i - 1], h[i]);
-        }
-
-        for(int i = n - 2; i >= 0; i--){
-            sm[i] = max(sm[i + 1], h[i]);
-        }
-
-        for(int i = 0; i < n; i++){
-            if(h[i] < pm[i] && h[i] < sm[i]){
-                total += min(pm[i], sm[i]) - h[i];
+        while(l < r){
+            if(h[l] <= h[r]){
+                if(h[l] < lMax){
+                    total += lMax - h[l];
+                }else lMax = h[l];
+                l++;
+            }
+            else {
+                if(h[r] < rMax){
+                    total += rMax - h[r];
+                }else rMax = h[r];
+                r--;
             }
         }
         return total;
