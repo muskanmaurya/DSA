@@ -11,27 +11,16 @@
 class Solution {
 public:
     ListNode* reverseList(ListNode* head) {
-        ListNode* temp = head;
-        vector<int> arr;
+        ListNode* prev = NULL;
+        ListNode* curr = head;
 
-        if (head == NULL || head->next == NULL) {
-            return head;
+        while (curr != NULL) {
+            ListNode* nextNode = curr->next; // Save next node
+            curr->next = prev;              // Reverse pointer
+            prev = curr;                    // Move prev forward
+            curr = nextNode;                // Move curr forward
         }
 
-        while(temp != NULL){
-            arr.push_back(temp -> val);
-            temp = temp -> next;
-        }
-
-        reverse(arr.begin(), arr.end());
-
-        ListNode* newHead = new ListNode(arr[0]);
-        ListNode* curr = newHead;
-
-        for(int i = 1; i < arr.size(); i++){
-            curr -> next = new ListNode(arr[i]);
-            curr = curr -> next;
-        }
-        return newHead;
+        return prev;
     }
 };
