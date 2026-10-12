@@ -11,25 +11,26 @@
 class Solution {
 public:
     ListNode* reverseKGroup(ListNode* head, int k) {
-        //Bruteforce
-        vector<int> ans;
+        //Optimal - In place reverse
+        ListNode* cursor = head;
 
-        for (ListNode* temp = head; temp != nullptr; temp = temp->next) {
-            ans.push_back(temp->val);
+        for(int i = 0; i < k; i++){
+            if(!cursor) return head;
+            cursor = cursor -> next;
         }
 
-        int n = ans.size();
-        for (int i = 0; i + k <= n; i += k) {
-            reverse(ans.begin() + i, ans.begin() + i + k);
+        ListNode* prev = nullptr;
+        ListNode* curr = head;
+        ListNode* nextNode = nullptr;
+
+        for(int i = 0; i < k; i++){
+            nextNode = curr -> next;
+            curr -> next = prev;
+            prev = curr;
+            curr = nextNode;
         }
 
-        ListNode dummy(0);
-        ListNode* temp = &dummy;
-        for (int val : ans) {
-            temp->next = new ListNode(val);
-            temp = temp->next;
-        }
-
-        return dummy.next;
+        head -> next = reverseKGroup(curr, k);
+        return prev;
     }
 };
